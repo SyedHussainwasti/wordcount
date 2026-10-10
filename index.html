@@ -5,43 +5,19 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Word Counter — Live text statistics</title>
 <meta name="description" content="Live word count, character count, sentences, paragraphs and reading time. 100% in-browser.">
-<style>
-  :root{
-    --bg:#0d1117; --card:#161b22; --line:#30363d; --txt:#e6edf3; --dim:#8b949e;
-    --acc:#58a6ff; --acc2:#3fb950;
-  }
-  *{box-sizing:border-box;margin:0;padding:0}
-  body{background:var(--bg);color:var(--txt);font-family:-apple-system,"Segoe UI",Inter,Roboto,sans-serif;
-    min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:32px 16px 48px}
-  .wrap{width:100%;max-width:680px}
-  header{text-align:center;margin-bottom:24px}
-  header h1{font-size:1.8rem;letter-spacing:-.5px}
-  header h1 span{color:var(--acc)}
-  header p{color:var(--dim);margin-top:8px;font-size:.95rem}
-  .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px}
-  .stat{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 8px;text-align:center}
-  .stat .v{font-size:1.5rem;font-weight:700;font-variant-numeric:tabular-nums}
-  .stat .l{font-size:.72rem;color:var(--dim);text-transform:uppercase;letter-spacing:.6px;margin-top:4px}
-  .stat.hero{border-color:var(--acc)}
-  .stat.hero .v{color:var(--acc)}
-  textarea{width:100%;min-height:260px;background:var(--card);border:1px solid var(--line);border-radius:12px;
-    color:var(--txt);padding:16px;font-size:1rem;line-height:1.6;font-family:inherit;resize:vertical}
-  textarea:focus{outline:none;border-color:var(--acc)}
-  .row{display:flex;gap:10px;margin-top:12px}
-  .btn{flex:1;padding:10px;background:transparent;border:1px solid var(--line);color:var(--dim);
-    border-radius:10px;cursor:pointer;font-weight:600;font-size:.88rem}
-  .btn:hover{color:var(--txt);border-color:var(--acc)}
-  footer{margin-top:24px;text-align:center;color:var(--dim);font-size:.8rem}
-  @media(max-width:480px){.stats{grid-template-columns:repeat(2,1fr)}}
-</style>
+<!-- all page styles live in styles.css -->
+<link rel="stylesheet" href="styles.css">
 </head>
 <body>
+<!-- the centered page column -->
 <div class="wrap">
+  <!-- the title and subtitle at the top -->
   <header>
     <h1><span>◈</span> Word Counter</h1>
     <p>Paste or type — stats update as you go. Nothing leaves your browser.</p>
   </header>
 
+  <!-- the 6 boxes showing the live counts -->
   <div class="stats">
     <div class="stat hero"><div class="v" id="s-words">0</div><div class="l">Words</div></div>
     <div class="stat"><div class="v" id="s-chars">0</div><div class="l">Characters</div></div>
@@ -51,65 +27,19 @@
     <div class="stat"><div class="v" id="s-read">0s</div><div class="l">Reading time</div></div>
   </div>
 
+  <!-- the big text box where you type or paste -->
   <textarea id="input" placeholder="Start typing or paste your text here…" autofocus></textarea>
+  <!-- the two buttons under the text box -->
   <div class="row">
     <button class="btn" id="btn-sample">Load sample</button>
     <button class="btn" id="btn-clear">Clear</button>
   </div>
 
+  <!-- the small note at the bottom -->
   <footer>Reading time ≈ 200 words per minute.</footer>
 </div>
 
-<script>
-const $ = id => document.getElementById(id);
-
-function analyze(text){
-  const trimmed = text.trim();
-  const words = trimmed ? trimmed.split(/\s+/).filter(Boolean).length : 0;
-  const chars = text.length;
-  const charsNoSpaces = text.replace(/\s/g,'').length;
-  const sentences = trimmed
-    ? trimmed.split(/[.!?…]+/).map(s=>s.trim()).filter(Boolean).length
-    : 0;
-  const paragraphs = trimmed
-    ? trimmed.split(/\n\s*\n/).map(p=>p.trim()).filter(Boolean).length
-    : 0;
-  // If text has no blank lines but has content, single-line breaks still separate paragraphs
-  const paras = paragraphs === 0 && trimmed ? 1 : paragraphs;
-  const wpm = 200;
-  const totalSec = Math.round(words / wpm * 60);
-  let read;
-  if (words === 0) read = '0s';
-  else if (totalSec < 60) read = Math.max(totalSec,1) + 's';
-  else {
-    const m = Math.floor(totalSec/60), s = totalSec % 60;
-    read = s ? m + 'm ' + s + 's' : m + 'm';
-  }
-  return { words, chars, charsNoSpaces, sentences, paragraphs: paras, read };
-}
-
-function render(){
-  const a = analyze($('input').value);
-  $('s-words').textContent = a.words.toLocaleString();
-  $('s-chars').textContent = a.chars.toLocaleString();
-  $('s-charsns').textContent = a.charsNoSpaces.toLocaleString();
-  $('s-sent').textContent = a.sentences.toLocaleString();
-  $('s-para').textContent = a.paragraphs.toLocaleString();
-  $('s-read').textContent = a.read;
-}
-
-$('input').addEventListener('input', render);
-$('btn-clear').addEventListener('click', ()=>{ $('input').value=''; render(); $('input').focus(); });
-$('btn-sample').addEventListener('click', ()=>{
-  $('input').value =
-`The quick brown fox jumps over the lazy dog. This pangram contains every letter of the alphabet!
-
-Pack my box with five dozen liquor jugs. How vexingly quick daft zebras jump?
-
-Writing clearly is a skill. Short sentences help. So do concrete examples.`;
-  render();
-});
-render();
-</script>
+<!-- all page logic lives in app.js -->
+<script src="app.js"></script>
 </body>
 </html>

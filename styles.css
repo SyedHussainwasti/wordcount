@@ -1,0 +1,48 @@
+/* the colors used all over the page — change a value here and it updates everywhere */
+:root{
+  --bg:#0d1117; --card:#161b22; --line:#30363d; --txt:#e6edf3; --dim:#8b949e;
+  --acc:#58a6ff; --acc2:#3fb950;
+}
+/* remove the browser's default spacing so our layout starts clean */
+*{box-sizing:border-box;margin:0;padding:0}
+/* the whole page: dark background, light text, everything centered in a column */
+body{background:var(--bg);color:var(--txt);font-family:-apple-system,"Segoe UI",Inter,Roboto,sans-serif;
+  min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:32px 16px 48px}
+/* the narrow column that holds all the content */
+.wrap{width:100%;max-width:680px}
+/* centers the title block at the top */
+header{text-align:center;margin-bottom:24px}
+/* the big page title */
+header h1{font-size:1.8rem;letter-spacing:-.5px}
+/* the little diamond symbol next to the title, shown in blue */
+header h1 span{color:var(--acc)}
+/* the small grey subtitle under the title */
+header p{color:var(--dim);margin-top:8px;font-size:.95rem}
+/* the grid that holds the 6 stat boxes, 3 per row */
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px}
+/* one stat box — big number on top, small label below */
+.stat{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 8px;text-align:center}
+/* the big number inside a stat box */
+.stat .v{font-size:1.5rem;font-weight:700;font-variant-numeric:tabular-nums}
+/* the small label under the number, like WORDS */
+.stat .l{font-size:.72rem;color:var(--dim);text-transform:uppercase;letter-spacing:.6px;margin-top:4px}
+/* the highlighted words box — blue border */
+.stat.hero{border-color:var(--acc)}
+/* the words number, shown in blue */
+.stat.hero .v{color:var(--acc)}
+/* the big text box where you type or paste your text */
+textarea{width:100%;min-height:260px;background:var(--card);border:1px solid var(--line);border-radius:12px;
+  color:var(--txt);padding:16px;font-size:1rem;line-height:1.6;font-family:inherit;resize:vertical}
+/* blue border around the text box when you click into it */
+textarea:focus{outline:none;border-color:var(--acc)}
+/* the row holding the two buttons side by side */
+.row{display:flex;gap:10px;margin-top:12px}
+/* the Load sample and Clear buttons */
+.btn{flex:1;padding:10px;background:transparent;border:1px solid var(--line);color:var(--dim);
+  border-radius:10px;cursor:pointer;font-weight:600;font-size:.88rem}
+/* button look when your mouse hovers over it */
+.btn:hover{color:var(--txt);border-color:var(--acc)}
+/* the small note at the very bottom of the page */
+footer{margin-top:24px;text-align:center;color:var(--dim);font-size:.8rem}
+/* on small phone screens: 2 stat boxes per row instead of 3 */
+@media(max-width:480px){.stats{grid-template-columns:repeat(2,1fr)}}

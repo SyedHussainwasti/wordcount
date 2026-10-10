@@ -14,4 +14,10 @@ Open `index.html` in any browser. Type or paste text — every stat updates on e
 - **Paragraphs**: split on blank lines, empty fragments dropped.
 - **Reading time**: words ÷ 200 wpm, shown as seconds or minutes.
 
-Single self-contained file — HTML, CSS and JS inline. No libraries, no network requests, works offline.
+## Files
+
+- `index.html` — the page markup
+- `styles.css` — all the styling, with plain-English comments
+- `app.js` — the counting logic, with plain-English comments
+
+No libraries, no network requests, works offline.
